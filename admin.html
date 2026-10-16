@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Admin Dashboard</title>
+
+    <link
+        rel="stylesheet"
+        href="admin.css"
+    >
+
+    <style>
+
+        /* =========================
+           Rooms Management
+        ========================= */
+
+        .rooms-section {
+            display: none;
+        }
+
+        .rooms-section.active {
+            display: block;
+        }
+
+        .dashboard-section.hidden {
+            display: none;
+        }
+
+        .rooms-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .rooms-toolbar-left h2 {
+            margin-bottom: 5px;
+        }
+
+        .rooms-toolbar-left p {
+            color: #777;
+            margin: 0;
+        }
+
+        .rooms-toolbar-right {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .rooms-search {
+            padding: 11px 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            min-width: 220px;
+            font-size: 14px;
+        }
+
+        .import-rooms-btn {
+            border: none;
+            background: #222;
+            color: white;
+            padding: 11px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .import-rooms-btn:hover {
+            opacity: 0.9;
+        }
+
+        .rooms-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(
+                    auto-fill,
+                    minmax(280px, 1fr)
+                );
+            gap: 20px;
+        }
+
+        .room-admin-card {
+            background: white;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid #e5e5e5;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+        }
+
+        .room-admin-image {
+            width: 100%;
+            height: 190px;
+            object-fit: cover;
+            display: block;
+            background: #eee;
+        }
+
+        .room-admin-content {
+            padding: 18px;
+        }
+
+        .room-admin-content h3 {
+            margin: 0 0 12px;
+        }
+
+        .room-info {
+            display: grid;
+            gap: 8px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .room-info strong {
+            color: #222;
+        }
+
+        .room-admin-actions {
+            margin-top: 18px;
+        }
+
+        .edit-room-btn {
+            width: 100%;
+            border: none;
+            background: #111;
+            color: white;
+            padding: 11px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .edit-room-btn:hover {
+            opacity: 0.9;
+        }
+
+        .rooms-empty {
+            background: white;
+            border: 1px solid #eee;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            color: #777;
+        }
+
+        /* =========================
+           Modal
+        ========================= */
+
+        .room-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+        }
+
+        .room-modal.show {
+            display: flex;
+        }
+
+        .room-modal-content {
+            background: white;
+            width: 100%;
+            max-width: 750px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 16px;
+            padding: 25px;
+            position: relative;
+        }
+
+        .room-modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .room-modal-header h2 {
+            margin: 0;
+        }
+
+        .close-room-modal {
+            border: none;
+            background: transparent;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .room-form {
+            display: grid;
+            gap: 16px;
+        }
+
+        .room-form-group {
+            display: grid;
+            gap: 7px;
+        }
+
+        .room-form-group label {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .room-form-group input,
+        .room-form-group textarea {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .room-form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .room-form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .room-current-image {
+            width: 180px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-top: 5px;
+            background: #eee;
+        }
+
+        .room-modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .room-cancel-btn,
+        .room-save-btn {
+            border: none;
+            padding: 11px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .room-cancel-btn {
+            background: #eee;
+            color: #222;
+        }
+
+        .room-save-btn {
+            background: #111;
+            color: white;
+        }
+
+        .room-save-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 600px) {
+
+            .room-form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .rooms-toolbar {
+                align-items: stretch;
+            }
+
+            .rooms-toolbar-right {
+                width: 100%;
+            }
+
+            .rooms-search {
+                width: 100%;
+                min-width: 0;
+            }
+
+            .import-rooms-btn {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+    <div class="dashboard">
+
+
+ٍ<!-- =========================
+     Sidebar
+========================== -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+        WorkSpace
+    </div>
+
+    <nav>
+
+        <a
+            href="#"
+            class="active"
+            id="dashboardLink"
+        >
+            📊 Dashboard
+        </a>
+
+        <a
+            href="#"
+            id="bookingsLink"
+        >
+            📅 New Bookings
+
+            <span
+                id="newBookingsBadge"
+                class="sidebar-badge hidden"
+            >
+                0
+            </span>
+        </a>
+
+        <a
+            href="#"
+            id="roomsLink"
+        >
+            🏢 Rooms
+        </a>
+
+        <!-- Customer Support -->
+        <a
+            href="#"
+            id="supportLink"
+        >
+            💬 Customer Support
+
+            <span
+                id="supportMessagesBadge"
+                class="sidebar-badge hidden"
+            >
+                0
+            </span>
+        </a>
+
+    </nav>
+
+</aside>
+
+
+
+
+        <!-- =========================
+             Main
+        ========================== -->
+
+        <main class="main">
+
+
+            <!-- =========================
+                 Header
+            ========================== -->
+
+            <header class="topbar">
+
+                <div class="dashboard-title">
+
+                    <h1 id="pageTitle">
+                        Dashboard
+                    </h1>
+
+                    <p id="pageSubtitle">
+                        Manage your workspace bookings
+                    </p>
+
+                </div>
+
+
+                <div class="admin-actions">
+
+
+                    <!-- Notifications -->
+
+                    <div class="notification-wrapper">
+
+                        <button
+                            id="notificationBtn"
+                            class="notification-btn"
+                            type="button"
+                        >
+                            🔔
+
+                            <span
+                                id="notificationBadge"
+                                class="notification-badge hidden"
+                            >
+                                0
+                            </span>
+
+                        </button>
+
+
+                        <div
+                            id="notificationPanel"
+                            class="notification-panel"
+                        >
+
+                            <div class="notification-header">
+
+                                <strong>
+                                    Notifications
+                                </strong>
+
+                                <button
+                                    id="markAllReadBtn"
+                                    type="button"
+                                >
+                                    Mark all as read
+                                </button>
+
+                            </div>
+
+
+                            <div
+                                id="notificationList"
+                                class="notification-list"
+                            >
+
+                                <div class="no-notifications">
+                                    No new notifications
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Admin -->
+
+                    <div class="admin-user">
+
+                        <div class="avatar">
+                            A
+                        </div>
+
+                        <div class="admin-info">
+
+                            <strong>
+                                Admin
+                            </strong>
+
+                            <span>
+                                Administrator
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Logout -->
+
+                    <button
+                        id="logoutBtn"
+                        class="logout-btn"
+                        type="button"
+                    >
+                        Logout
+                    </button>
+
+                </div>
+
+            </header>
+
+
+
+            <!-- =========================
+                 Dashboard Section
+            ========================== -->
+
+            <div id="dashboardSection">
+
+
+                <!-- Statistics -->
+
+                <section class="stats">
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            📅
+                        </div>
+
+                        <div>
+
+                            <p>
+                                Total Bookings
+                            </p>
+
+                            <h2 id="totalBookings">
+                                0
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            ⏳
+                        </div>
+
+                        <div>
+
+                            <p>
+                                Pending
+                            </p>
+
+                            <h2 id="pendingBookings">
+                                0
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            ✅
+                        </div>
+
+                        <div>
+
+                            <p>
+                                Confirmed
+                            </p>
+
+                            <h2 id="confirmedBookings">
+                                0
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon">
+                            💰
+                        </div>
+
+                        <div>
+
+                            <p>
+                                Total Revenue
+                            </p>
+
+                            <h2 id="totalRevenue">
+                                0 EGP
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- Bookings -->
+
+                <section class="bookings-section">
+
+
+                    <div class="section-header">
+
+                        <div>
+
+                            <h2>
+                                Recent Bookings
+                            </h2>
+
+                            <p>
+                                Manage your latest reservations
+                            </p>
+
+                        </div>
+
+
+                        <div class="filters">
+
+                            <input
+                                type="text"
+                                id="searchInput"
+                                placeholder="Search booking..."
+                            >
+
+
+                            <select id="statusFilter">
+
+                                <option value="all">
+                                    All Status
+                                </option>
+
+                                <option value="pending">
+                                    Pending
+                                </option>
+
+                                <option value="confirmed">
+                                    Confirmed
+                                </option>
+
+                                <option value="cancelled">
+                                    Cancelled
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Table -->
+
+                    <div class="table-container">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Room
+                                    </th>
+
+                                    <th>
+                                        Date
+                                    </th>
+
+                                    <th>
+                                        Time
+                                    </th>
+
+                                    <th>
+                                        Customer
+                                    </th>
+
+                                    <th>
+                                        Email
+                                    </th>
+
+                                    <th>
+                                        Phone
+                                    </th>
+
+                                    <th>
+                                        People
+                                    </th>
+
+                                    <th>
+                                        Total
+                                    </th>
+
+                                    <th>
+                                        Status
+                                    </th>
+
+                                    <th>
+                                        Actions
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody id="bookingsTable">
+
+                                <tr>
+
+                                    <td colspan="10">
+
+                                        <div class="empty">
+                                            No bookings yet
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                </section>
+
+            </div>
+
+
+<!-- =========================
+     Customer Support Section
+========================== -->
+
+<div id="supportSection" style="display: none;">
+
+    <div class="section-header">
+
+
+    </div>
+
+    <div class="support-layout">
+
+        <!-- Conversations List -->
+
+        <aside class="support-conversations">
+
+            <div class="support-list-header">
+                <h3>Conversations</h3>
+                <span id="supportConversationCount">0</span>
+            </div>
+
+            <input
+                type="text"
+                id="supportSearch"
+                placeholder="Search conversations..."
+                aria-label="Search conversations"
+            >
+
+            <div
+                id="supportConversationsList"
+                class="support-conversations-list"
+            >
+                <div class="support-empty">
+                    No conversations yet.
+                </div>
+            </div>
+
+        </aside>
+
+
+        <!-- Chat Window -->
+
+        <section class="support-chat">
+
+            <div
+                id="supportChatHeader"
+                class="support-chat-header"
+            >
+                <div>
+                    <h3 id="supportCustomerName">
+                        Select a conversation
+                    </h3>
+
+                    <p id="supportCustomerEmail">
+                        Customer messages will appear here
+                    </p>
+                </div>
+            </div>
+
+
+            <div
+                id="supportMessages"
+                class="support-messages"
+                aria-live="polite"
+            >
+                <div class="support-empty">
+                    Choose a conversation to view messages.
+                </div>
+            </div>
+
+
+            <form
+                id="supportReplyForm"
+                class="support-reply-form"
+            >
+
+                <textarea
+                    id="supportReplyInput"
+                    placeholder="Write your reply..."
+                    rows="2"
+                    maxlength="2000"
+                    required
+                    disabled
+                ></textarea>
+
+                <button
+                    type="submit"
+                    id="supportSendBtn"
+                    disabled
+                >
+                    Send Reply
+                </button>
+
+            </form>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+
+
+            <!-- =========================
+                 Rooms Section
+            ========================== -->
+
+            <section
+                id="roomsSection"
+                class="rooms-section"
+            >
+
+
+                <div class="rooms-toolbar">
+
+
+                    <div class="rooms-toolbar-left">
+
+                        <h2>
+                            Rooms Management
+                        </h2>
+
+                        <p>
+                            Manage the rooms available on your website
+                        </p>
+
+                    </div>
+
+
+                    <div class="rooms-toolbar-right">
+
+    <input
+        type="text"
+        id="roomsSearchInput"
+        class="rooms-search"
+        placeholder="Search rooms..."
+    >
+
+
+    <button
+        id="importRoomsBtn"
+        class="import-rooms-btn"
+        type="button"
+    >
+        Import Current Rooms
+    </button>
+
+</div>
+
+
+                </div>
+
+
+
+                <div
+                    id="roomsGrid"
+                    class="rooms-grid"
+                >
+
+                    <div class="rooms-empty">
+
+                        Loading rooms...
+
+                    </div>
+
+                </div>
+
+
+            </section>
+
+
+        </main>
+
+    </div>
+
+
+
+    <!-- =========================
+         Edit Room Modal
+    ========================== -->
+
+    <div
+        id="roomModal"
+        class="room-modal"
+    >
+
+        <div class="room-modal-content">
+
+
+            <div class="room-modal-header">
+
+               <h2 id="roomModalTitle">
+                       Edit Room
+                        </h2>
+
+                <button
+                    id="closeRoomModal"
+                    class="close-room-modal"
+                    type="button"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <form
+                id="roomForm"
+                class="room-form"
+            >
+
+                <input
+                    type="hidden"
+                    id="editRoomId"
+                >
+
+
+                <div class="room-form-group">
+
+                    <label for="editRoomName">
+                        Room Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editRoomName"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="room-form-row">
+
+
+                    <div class="room-form-group">
+
+                        <label for="editRoomCapacity">
+                            Capacity
+                        </label>
+
+                        <input
+                            type="number"
+                            id="editRoomCapacity"
+                            min="1"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="room-form-group">
+
+                        <label for="editRoomPrice">
+                            Price / Hour
+                        </label>
+
+                        <input
+                            type="number"
+                            id="editRoomPrice"
+                            min="0"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="room-form-row">
+
+
+                    <div class="room-form-group">
+
+                        <label for="editAvailableFrom">
+                            Available From
+                        </label>
+
+                        <input
+                            type="text"
+                            id="editAvailableFrom"
+                            placeholder="08:00 AM"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <div class="room-form-group">
+
+                        <label for="editAvailableTo">
+                            Available To
+                        </label>
+
+                        <input
+                            type="text"
+                            id="editAvailableTo"
+                            placeholder="10:00 PM"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="room-form-group">
+
+                    <label for="editRoomDescription">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="editRoomDescription"
+                        required
+                    ></textarea>
+
+                </div>
+
+
+
+                <div class="room-form-group">
+
+                    <label for="editRoomFeatures">
+                        Features
+                    </label>
+
+                    <textarea
+                        id="editRoomFeatures"
+                        placeholder="Wi-Fi, Air Conditioning, Smart Screen"
+                    ></textarea>
+
+                </div>
+
+
+
+                <div class="room-form-group">
+
+                    <label for="editRoomImage">
+                        Main Image Path
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editRoomImage"
+                        placeholder="img/1.webp"
+                    >
+
+                    <img
+                        id="currentRoomImage"
+                        class="room-current-image"
+                        src=""
+                        alt="Room"
+                    >
+
+                </div>
+
+
+
+                <div class="room-form-group">
+
+                    <label for="editRoomGallery">
+                        Gallery Image Paths
+                    </label>
+
+                    <textarea
+                        id="editRoomGallery"
+                        placeholder="img/1.webp, img/1-3.webp, img/1-4.webp"
+                    ></textarea>
+
+                </div>
+
+
+
+                <div class="room-form-group">
+
+                    <label for="editRoomVideo">
+                        Video Path
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editRoomVideo"
+                        placeholder="videos/room-1.mp4"
+                    >
+
+                </div>
+
+
+
+                <div class="room-modal-actions">
+
+                    <button
+                        type="button"
+                        id="cancelRoomEdit"
+                        class="room-cancel-btn"
+                    >
+                        Cancel
+                    </button>
+
+
+
+                    <button
+                        type="submit"
+                        id="saveRoomBtn"
+                        class="room-save-btn"
+                    >
+                        <span id="saveRoomText">
+                            Save Changes
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- JS -->
+
+    <script
+        type="module"
+        src="admin.js"
+    ></script>
+
+</body>
+
+</html>

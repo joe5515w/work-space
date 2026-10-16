@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Check Booking Status</title>
+
+    <link
+        rel="stylesheet"
+        href="booking-status.css"
+    >
+
+</head>
+
+
+<body>
+
+    <section class="status-page">
+
+        <div class="status-container">
+
+            <h1>
+                Check Your Booking
+            </h1>
+
+            <p class="subtitle">
+                Enter your Booking ID to check your booking status.
+            </p>
+
+
+            <form id="statusForm">
+
+                <div class="form-group">
+
+                    <label for="bookingId">
+                        Booking ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="bookingId"
+                        placeholder="Example: WS-1756123456789"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="check-btn"
+                >
+                    Check Status
+                </button>
+
+                <a href="index.html" class="back-btn">go back</a>
+            </form>
+
+
+            <!-- Result -->
+
+            <div
+                id="statusResult"
+                class="status-result"
+            >
+
+                <h2>
+                    Booking Details
+                </h2>
+
+
+                <div class="detail">
+                    <span>Customer Name</span>
+                    <strong id="resultName">-</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Room</span>
+                    <strong id="resultRoom">-</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Date</span>
+                    <strong id="resultDate">-</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Time</span>
+                    <strong id="resultTime">-</strong>
+                </div>
+
+                <div class="detail">
+                    <span>Status</span>
+                    <strong id="resultStatus">-</strong>
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <script
+        type="module"
+        src="booking-status.js"
+    ></script>
+
+</body>
+
+</html>

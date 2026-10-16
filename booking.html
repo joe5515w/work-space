@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Book a Room</title>
+
+    <link rel="stylesheet" href="booking.css">
+
+</head>
+
+
+<body>
+
+
+    <section class="booking">
+
+        <div class="booking-container">
+
+
+            <h1>Book Your Room</h1>
+
+            <p class="subtitle">
+                Fill in the information below to complete your booking
+            </p>
+
+
+            <form
+                id="bookingForm"
+            >
+
+                <!-- Room -->
+                <div class="form-group">
+
+                    <input
+                        type="hidden"
+                        id="room"
+                        name="room"
+                    >
+
+                </div>
+
+
+                <!-- Date -->
+                <div class="form-group">
+
+                    <label for="date">
+                        Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="date"
+                        name="date"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- =============================
+     Availability
+============================== -->
+
+<div class="availability-box">
+
+    <h3>
+        Room Availability
+    </h3>
+
+    <p id="availabilityMessage">
+        Select a date to see available times
+    </p>
+
+
+    <div
+        id="availabilityList"
+        class="availability-list"
+    ></div>
+
+</div>
+
+
+                <!-- From -->
+                <div class="form-group">
+
+                    <label for="from">
+                        From
+                    </label>
+
+                    <input
+                        type="time"
+                        id="from"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- To -->
+                <div class="form-group">
+
+                    <label for="to">
+                        To
+                    </label>
+
+                    <input
+                        type="time"
+                        id="to"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Formatted Time -->
+                <input
+                    type="hidden"
+                    id="fromFormatted"
+                    name="from"
+                >
+
+                <input
+                    type="hidden"
+                    id="toFormatted"
+                    name="to"
+                >
+
+
+                <!-- Name -->
+                <div class="form-group">
+
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your name"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Phone -->
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="010xxxxxxxx"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Email -->
+                <div class="form-group">
+
+                    <label for="email">
+                        Email
+                    </label>
+
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- People -->
+                <div class="form-group">
+
+                    <label for="people">
+                        Number of People
+                    </label>
+
+                    <input
+                        type="number"
+                        id="people"
+                        name="people"
+                        min="1"
+                            
+                    >
+
+                </div>
+
+
+                <!-- Notes -->
+                <div class="form-group">
+
+                    <label for="notes">
+                        Notes
+                    </label>
+
+                    <textarea
+                        id="notes"
+                        name="notes"
+                        placeholder="Any additional information..."
+                    ></textarea>
+
+                </div>
+
+
+                <!-- Total -->
+                <div class="total">
+
+                    <h2>
+
+                        Total:
+
+                        <span id="totalPrice">
+                            0
+                        </span>
+
+                        EGP
+
+                    </h2>
+
+
+                    <input
+                        type="hidden"
+                        id="totalInput"
+                        name="total"
+                    >
+
+                </div>
+
+
+                <!-- Submit -->
+                <button
+                    type="submit"
+                    class="confirm-btn"
+                >
+                    Confirm Booking
+                </button>
+
+
+            </form>
+
+
+        </div>
+
+    </section>
+
+
+
+    <div id="bookingSuccess" class="booking-success">
+
+    <div class="success-content">
+
+        <h2>Booking Submitted ✅</h2>
+
+        <p>Your Booking ID:</p>
+
+        <div class="booking-id">
+
+            <span id="bookingIdDisplay"></span>
+
+            <button
+                type="button"
+                id="copyBookingId"
+            >
+                Copy
+            </button>
+            
+            <a href="index.html" class="confirm-btn">
+                Go Back
+            </a>
+
+        </div>
+
+        <p id="copyMessage"></p>
+
+    </div>
+
+</div>
+
+
+<script src="room.js"></script>
+<script type="module" src="booking.js"></script>
+
+
+</body>
+
+</html>

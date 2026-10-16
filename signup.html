@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Account</title>
+
+    <link
+        rel="stylesheet"
+        href="login.css"
+    >
+
+</head>
+
+
+<body>
+
+    <div class="login-container">
+
+        <form
+            id="signupForm"
+            class="login-box"
+        >
+
+            <h1>Create Account</h1>
+
+            <p>
+                Create your account to start booking
+            </p>
+
+
+            <!-- Name -->
+
+            <input
+                type="text"
+                id="signupName"
+                placeholder="Full Name"
+                required
+            >
+
+
+            <!-- Email -->
+
+            <input
+                type="email"
+                id="signupEmail"
+                placeholder="Email"
+                required
+            >
+
+
+            <!-- Password -->
+
+            <input
+                type="password"
+                id="signupPassword"
+                placeholder="Password"
+                minlength="6"
+                required
+            >
+
+
+            <!-- Create -->
+
+            <button type="submit">
+
+                Create Account
+
+            </button>
+
+
+            <!-- Message -->
+
+            <p id="signupMessage"></p>
+
+
+            <!-- Login -->
+
+            <p class="switch-auth">
+
+                Already have an account?
+
+                <a href="customer-login.html">
+
+                    Login
+
+                </a>
+
+            </p>
+
+        </form>
+
+    </div>
+
+
+    <script
+        type="module"
+        src="signup.js"
+    ></script>
+
+</body>
+
+</html>

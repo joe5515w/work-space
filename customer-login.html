@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Customer Login</title>
+
+    <link
+        rel="stylesheet"
+        href="login.css"
+    >
+
+</head>
+
+
+<body>
+
+    <div class="login-container">
+
+        <form
+            id="customerLoginForm"
+            class="login-box"
+        >
+
+            <h1>Welcome Back 👋</h1>
+
+            <p>
+                Login to manage your bookings
+            </p>
+
+
+            <!-- Email -->
+
+            <input
+                type="email"
+                id="customerEmail"
+                placeholder="Email"
+                required
+            >
+
+
+            <!-- Password -->
+
+            <input
+                type="password"
+                id="customerPassword"
+                placeholder="Password"
+                required
+            >
+
+
+            <!-- Login -->
+
+            <button type="submit">
+
+                Login
+
+            </button>
+
+
+            <!-- Message -->
+
+            <p id="customerLoginMessage"></p>
+
+
+            <!-- Signup -->
+
+            <p class="switch-auth">
+
+                Don't have an account?
+
+                <a href="signup.html">
+
+                    Create Account
+
+                </a>
+
+            </p>
+
+        </form>
+
+    </div>
+
+
+    <script
+        type="module"
+        src="customer-login.js"
+    ></script>
+
+</body>
+
+</html>

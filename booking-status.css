@@ -1,0 +1,219 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+
+    font-family: Arial, sans-serif;
+
+    min-height: 100vh;
+
+    background: #f5f7fa;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+}
+
+
+.status-page {
+
+    width: 100%;
+
+    padding: 20px;
+
+}
+
+
+.status-container {
+
+    width: 100%;
+
+    max-width: 500px;
+
+    margin: auto;
+
+    background: white;
+
+    padding: 35px;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.08);
+
+}
+
+
+.status-container h1 {
+
+    text-align: center;
+
+    margin-bottom: 10px;
+
+}
+
+
+.subtitle {
+
+    text-align: center;
+
+    color: #777;
+
+    margin-bottom: 30px;
+
+}
+
+
+.form-group {
+
+    margin-bottom: 20px;
+
+}
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: 600;
+
+}
+
+
+.form-group input {
+
+    width: 100%;
+
+    padding: 13px 15px;
+
+    border: 1px solid #ddd;
+
+    border-radius: 10px;
+
+    font-size: 15px;
+
+    outline: none;
+
+}
+
+
+.form-group input:focus {
+
+    border-color: #111;
+
+}
+
+
+.check-btn {
+
+    width: 100%;
+
+    padding: 14px;
+
+    margin-bottom: 25px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: #111;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+}
+
+
+.status-result {
+
+    display: none;
+
+    margin-top: 30px;
+
+    padding: 20px;
+
+    border-radius: 14px;
+
+    background: #f7f7f7;
+
+}
+
+
+.status-result.show {
+
+    display: block;
+
+}
+
+
+.status-result h2 {
+
+    margin-bottom: 20px;
+
+}
+
+
+.detail {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid #ddd;
+
+}
+
+
+.detail:last-child {
+
+    border-bottom: none;
+
+}
+
+
+.detail span {
+
+    color: #777;
+
+}
+
+
+.detail strong {
+
+    text-align: right;
+
+}
+
+.back-btn{
+    background-color: #111;
+    padding: 15px;
+    font-size: 15px;
+    border-radius: 10px;
+    text-decoration: none;
+    color: white;
+    transition: 0.9s;
+}
+
+.back-btn:hover{
+
+    background-color: #514e4e;
+    color: rgb(251, 248, 248);
+}

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>My Account</title>
+
+    <link
+        rel="stylesheet"
+        href="account.css"
+    >
+
+</head>
+
+<body>
+
+    <header class="account-header">
+
+        <div>
+
+            <h1>
+                My Account
+            </h1>
+
+            <p>
+                Manage your bookings
+            </p>
+
+        </div>
+
+            <a
+            href="index.html"
+            class="home-btn"
+        >
+            ← Home
+        </a>
+
+        <button
+            id="logoutBtn"
+            class="logout-btn"
+        >
+            Logout
+        </button>
+
+             
+    </header>
+
+
+    <main class="account-container">
+
+
+        <!-- Customer Info -->
+
+        <section class="profile-card">
+
+            <div class="profile-icon">
+                👤
+            </div>
+
+
+            <div>
+
+                <h2 id="customerName">
+                    Loading...
+                </h2>
+
+                <p id="customerEmail">
+                    Loading...
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- Bookings -->
+
+        <section class="bookings-section">
+
+            <div class="section-title">
+
+                <h2>
+                    My Bookings
+                </h2>
+
+                <span id="bookingCount">
+                    0 Bookings
+                </span>
+
+            </div>
+
+
+            <div
+                id="bookingsList"
+                class="bookings-list"
+            >
+
+                <p class="loading">
+                    Loading your bookings...
+                </p>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <script
+        type="module"
+        src="account.js"
+    ></script>
+
+</body>
+
+</html>

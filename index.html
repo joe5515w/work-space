@@ -1,0 +1,1418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <title>Workspace</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =============================
+         Navbar
+    ============================== -->
+
+    <header class="navbar">
+
+        <a href="index.html" class="logo">
+            Workspace
+        </a>
+
+
+        <nav>
+
+            <!--
+                This button changes automatically:
+                Login
+                My Account
+                Admin Dashboard
+            -->
+
+            <a
+                href="customer-login.html"
+                class="account-btn"
+                id="accountBtn"
+            >
+                Log In
+            </a>
+
+
+            <a href="#home">
+                Home
+            </a>
+
+
+            <a href="#rooms">
+                Rooms
+            </a>
+
+        </nav>
+
+
+        <a
+            href="booking-status.html"
+            class="nav-btn"
+        >
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            My Booking
+
+        </a>
+
+    </header>
+
+
+
+    <!-- =============================
+         Hero
+    ============================== -->
+
+    <section
+        id="home"
+        class="hero"
+    >
+
+        <video
+            class="hero-video"
+            autoplay
+            muted
+            loop
+            playsinline
+        >
+
+            <source
+                src="video/background.mp4"
+                type="video/mp4"
+            >
+
+        </video>
+
+
+        <div class="hero-overlay"></div>
+
+
+        <div class="hero-content">
+
+            <p class="hero-small">
+                PROFESSIONAL WORKSPACE
+            </p>
+
+
+            <h1>
+
+                Your Space.
+                <br>
+                Your Productivity.
+
+            </h1>
+
+
+            <p class="hero-text">
+
+                Book a professional workspace
+                designed for meetings,
+                teamwork and productivity.
+
+            </p>
+
+
+            <div class="hero-buttons">
+
+                <a
+                    href="#rooms"
+                    class="primary-btn"
+                >
+
+                    Book a Room
+
+                </a>
+
+
+                <a
+                    href="booking-status.html"
+                    class="secondary-btn"
+                >
+
+                    Check My Booking
+
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <div class="scroll-down">
+
+            <span>
+                Scroll Down
+            </span>
+
+            ↓
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =============================
+         Rooms
+    ============================== -->
+
+    <section
+        id="rooms"
+        class="rooms"
+    >
+
+        <h2>
+            Our Rooms
+        </h2>
+
+        <p class="subtitle">
+            Choose the perfect room for your work
+        </p>
+
+
+        <div
+            class="rooms-container"
+            id="roomsContainer"
+        >
+
+            <p>
+                Loading rooms...
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    
+<!-- =============================
+     CUSTOMER SUPPORT CHAT
+============================== -->
+
+<div class="support-widget">
+
+    <button
+        type="button"
+        id="supportToggle"
+        class="support-toggle"
+        aria-label="Open customer support chat"
+        aria-expanded="false"
+    >
+        <i class="fa-solid fa-comments"></i>
+        <span class="support-toggle-label">Support</span>
+    </button>
+
+    <section
+        id="supportPanel"
+        class="support-panel"
+        aria-label="Customer support chat"
+        hidden
+    >
+
+        <div class="support-widget-header">
+            <div class="support-widget-avatar">
+                <i class="fa-solid fa-headset"></i>
+            </div>
+
+            <div class="support-widget-heading">
+                <h3>Work-Space Support</h3>
+                <p>We're here to help</p>
+            </div>
+
+            <button
+                type="button"
+                id="supportClose"
+                class="support-close"
+                aria-label="Close chat"
+            >
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <div
+            id="supportLoginNotice"
+            class="support-login-notice"
+            hidden
+        >
+            <i class="fa-solid fa-lock"></i>
+
+            <h4>Login required</h4>
+
+            <p>
+                Please log in to your account
+                to send messages to our support team.
+            </p>
+
+            <a href="customer-login.html" class="support-login-btn">
+                Log In to Continue
+            </a>
+        </div>
+
+        <div
+            id="supportChatArea"
+            class="support-chat-area"
+            hidden
+        >
+
+            <div
+                id="supportMessages"
+                class="support-widget-messages"
+                aria-live="polite"
+                aria-relevant="additions text"
+            >
+                <div class="support-welcome">
+                    Hello! How can we help you today?
+                </div>
+            </div>
+
+            <form id="supportMessageForm" class="support-message-form">
+
+                <textarea
+                    id="supportMessageInput"
+                    placeholder="Write your message..."
+                    rows="1"
+                    maxlength="2000"
+                    required
+                    aria-label="Write your message"
+                ></textarea>
+
+                <button
+                    type="submit"
+                    id="supportMessageSend"
+                    aria-label="Send message"
+                >
+                    <i class="fa-solid fa-paper-plane"></i>
+                </button>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+
+
+
+    <!-- =============================
+         FALLBACK ROOM DATA
+         room.js
+    ============================== -->
+
+    <script src="room.js"></script>
+
+
+
+    <!-- =============================
+         FIREBASE
+    ============================== -->
+
+    <script type="module">
+
+        import {
+            initializeApp
+        } from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+
+
+        import {
+            getFirestore,
+            collection,
+            getDocs,
+            doc,
+            getDoc,
+            setDoc,
+            addDoc,
+            updateDoc,
+            onSnapshot,
+            serverTimestamp
+        } from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+        import {
+            getAuth,
+            onAuthStateChanged
+        } from
+        "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+
+        // ==========================================
+        // FIREBASE CONFIG
+        // ==========================================
+
+        const firebaseConfig = {
+
+            apiKey:
+                "AIzaSyAMpEEVR04IamKNSU6e_NF1mfOKri-5Yrw",
+
+            authDomain:
+                "work-space-aed69.firebaseapp.com",
+
+            projectId:
+                "work-space-aed69",
+
+            storageBucket:
+                "work-space-aed69.firebasestorage.app",
+
+            messagingSenderId:
+                "134615324990",
+
+            appId:
+                "1:134615324990:web:346d91563e063f35ffb46f"
+
+        };
+
+
+
+        // ==========================================
+        // INITIALIZE FIREBASE
+        // ==========================================
+
+        const app =
+            initializeApp(
+                firebaseConfig
+            );
+
+
+        const db =
+            getFirestore(app);
+
+
+        const auth =
+            getAuth(app);
+
+
+
+        // ==========================================
+        // ELEMENTS
+        // ==========================================
+
+        const roomsContainer =
+            document.getElementById(
+                "roomsContainer"
+            );
+
+
+        const accountBtn =
+            document.getElementById(
+                "accountBtn"
+            );
+
+
+
+        // ==========================================
+        // ACCOUNT BUTTON
+        // ==========================================
+
+        onAuthStateChanged(
+            auth,
+            async function (user) {
+
+                // ==================================
+                // NOT LOGGED IN
+                // ==================================
+
+                if (!user) {
+
+                    accountBtn.textContent =
+                        "Log In";
+
+                    accountBtn.href =
+                        "customer-login.html";
+
+                    return;
+
+                }
+
+
+                // ==================================
+                // USER IS LOGGED IN
+                // ==================================
+
+                try {
+
+                    /*
+                        Read ONLY the current user's
+                        document.
+
+                        We do NOT read all users.
+                    */
+
+                    const userRef =
+                        doc(
+                            db,
+                            "users",
+                            user.uid
+                        );
+
+
+                    const userSnapshot =
+                        await getDoc(
+                            userRef
+                        );
+
+
+                    // ==================================
+                    // ADMIN
+                    // ==================================
+
+                    if (
+                        userSnapshot.exists() &&
+                        userSnapshot.data().role === "admin"
+                    ) {
+
+                        accountBtn.textContent =
+                            "Admin Dashboard";
+
+                        accountBtn.href =
+                            "admin.html";
+
+                    }
+
+
+                    // ==================================
+                    // CUSTOMER
+                    // ==================================
+
+                    else {
+
+                        accountBtn.textContent =
+                            "My Account";
+
+                        accountBtn.href =
+                            "account.html";
+
+                    }
+
+                } catch (error) {
+
+                    console.error(
+                        "Error checking user role:",
+                        error
+                    );
+
+
+                    /*
+                        If checking the role fails,
+                        treat the user as a normal customer.
+                    */
+
+                    accountBtn.textContent =
+                        "My Account";
+
+                    accountBtn.href =
+                        "account.html";
+
+                }
+
+            }
+        );
+
+
+
+        // ==========================================
+        // LOAD ROOMS
+        // ==========================================
+
+        async function loadRooms() {
+
+            try {
+
+                const snapshot =
+                    await getDocs(
+                        collection(
+                            db,
+                            "rooms"
+                        )
+                    );
+
+
+                // ==================================
+                // FIRESTORE ROOMS
+                // ==================================
+
+                if (
+                    !snapshot.empty
+                ) {
+
+                    const firebaseRooms = [];
+
+
+                    snapshot.forEach(
+                        function (roomDoc) {
+
+                            firebaseRooms.push({
+
+                                firestoreId:
+                                    roomDoc.id,
+
+                                ...roomDoc.data()
+
+                            });
+
+                        }
+                    );
+
+
+                    // Sort by room ID
+
+                    firebaseRooms.sort(
+                        function (a, b) {
+
+                            return (
+                                Number(a.id || 0) -
+                                Number(b.id || 0)
+                            );
+
+                        }
+                    );
+
+
+                    renderRooms(
+                        firebaseRooms
+                    );
+
+
+                    return;
+
+                }
+
+
+
+                // ==================================
+                // FIRESTORE EMPTY
+                // USE room.js
+                // ==================================
+
+                console.log(
+                    "Firestore rooms empty. Using room.js"
+                );
+
+
+                renderRooms(
+                    rooms
+                );
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Error loading rooms:",
+                    error
+                );
+
+
+                // ==================================
+                // FALLBACK
+                // ==================================
+
+                renderRooms(
+                    rooms
+                );
+
+            }
+
+        }
+
+
+
+        // ==========================================
+        // RENDER ROOMS
+        // ==========================================
+
+        function renderRooms(
+            roomList
+        ) {
+
+            roomsContainer.innerHTML =
+                "";
+
+
+            if (
+                !roomList ||
+                roomList.length === 0
+            ) {
+
+                roomsContainer.innerHTML = `
+
+                    <p>
+                        No rooms available.
+                    </p>
+
+                `;
+
+                return;
+
+            }
+
+
+            roomList.forEach(
+                function (room) {
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    card.className =
+                        "room-card";
+
+
+                    const features =
+                        Array.isArray(
+                            room.features
+                        )
+                            ? room.features
+                                .slice(0, 3)
+                                .join(" • ")
+                            : "";
+
+
+
+                    card.innerHTML = `
+
+                        <img
+                            src="${escapeHtml(
+                                room.image || ""
+                            )}"
+                            alt="${escapeHtml(
+                                room.name || "Room"
+                            )}"
+                        >
+
+
+                        <div class="room-info">
+
+                            <h3>
+
+                                ${escapeHtml(
+                                    room.name ||
+                                    "Meeting Room"
+                                )}
+
+                            </h3>
+
+
+                            <p>
+
+                                👥
+                                ${Number(
+                                    room.capacity || 0
+                                )}
+                                People
+
+                            </p>
+
+
+                            <p>
+
+                                💰
+                                ${Number(
+                                    room.price || 0
+                                )}
+                                EGP / Hour
+
+                            </p>
+
+
+                            <p>
+
+                                ${escapeHtml(
+                                    features
+                                )}
+
+                            </p>
+
+
+                            <a
+                                href="room-details.html?id=${encodeURIComponent(
+                                    room.id
+                                )}"
+                                class="details-btn"
+                            >
+
+                                View Details
+
+                            </a>
+
+                        </div>
+
+                    `;
+
+
+                    roomsContainer.appendChild(
+                        card
+                    );
+
+                }
+            );
+
+        }
+
+
+
+        // ==========================================
+        // ESCAPE HTML
+        // ==========================================
+
+        function escapeHtml(
+            value
+        ) {
+
+            return String(value)
+
+                .replaceAll(
+                    "&",
+                    "&amp;"
+                )
+
+                .replaceAll(
+                    "<",
+                    "&lt;"
+                )
+
+                .replaceAll(
+                    ">",
+                    "&gt;"
+                )
+
+                .replaceAll(
+                    '"',
+                    "&quot;"
+                )
+
+                .replaceAll(
+                    "'",
+                    "&#039;"
+                );
+
+        }
+
+
+
+        // ==========================================
+        // START
+        // ==========================================
+
+        loadRooms();
+
+        
+        
+/* ==========================================
+   CUSTOMER SUPPORT CHAT
+========================================== */
+
+const supportToggle = document.getElementById("supportToggle");
+const supportPanel = document.getElementById("supportPanel");
+const supportClose = document.getElementById("supportClose");
+const supportLoginNotice = document.getElementById("supportLoginNotice");
+const supportChatArea = document.getElementById("supportChatArea");
+const supportMessagesBox = document.getElementById("supportMessages");
+const supportMessageForm = document.getElementById("supportMessageForm");
+const supportMessageInput = document.getElementById("supportMessageInput");
+const supportMessageSend = document.getElementById("supportMessageSend");
+
+let supportUser = null;
+let supportMessagesUnsubscribe = null;
+let supportBusy = false;
+
+// ==========================================
+// OPEN / CLOSE CHAT
+// ==========================================
+
+function toggleSupport(open) {
+    supportPanel.hidden = !open;
+    supportToggle.setAttribute("aria-expanded", String(open));
+
+    if (!open && supportMessagesUnsubscribe) {
+        supportMessagesUnsubscribe();
+        supportMessagesUnsubscribe = null;
+    }
+
+    if (open) {
+        updateSupportForUser(auth.currentUser);
+    }
+}
+
+supportToggle.addEventListener("click", function () {
+    toggleSupport(supportPanel.hidden);
+});
+
+supportClose.addEventListener("click", function () {
+    toggleSupport(false);
+});
+
+// ==========================================
+// CHAT DISPLAY
+// ==========================================
+
+function showSupportNotice() {
+    supportLoginNotice.hidden = false;
+    supportChatArea.hidden = true;
+}
+
+function showSupportChatArea() {
+    supportLoginNotice.hidden = true;
+    supportChatArea.hidden = false;
+}
+
+function addSupportNotice(text) {
+    const element = document.createElement("p");
+    element.className = "support-welcome";
+    element.textContent = text;
+    supportMessagesBox.replaceChildren(element);
+}
+
+function supportTime(timestamp) {
+    if (!timestamp || typeof timestamp.toDate !== "function") {
+        return "Sending...";
+    }
+
+    return timestamp.toDate().toLocaleString();
+}
+
+// ==========================================
+// REFRESH LAST MESSAGE IN CHAT DOCUMENT
+// ==========================================
+
+async function refreshCustomerChatPreview(user) {
+    if (
+        !user ||
+        !auth.currentUser ||
+        auth.currentUser.uid !== user.uid
+    ) {
+        return;
+    }
+
+    const chatRef = doc(db, "supportChats", user.uid);
+
+    const messagesRef = collection(
+        db,
+        "supportChats",
+        user.uid,
+        "messages"
+    );
+
+    const snapshot = await getDocs(messagesRef);
+
+    // تأكد إن نفس العميل ما زال مسجل الدخول
+    if (
+        !auth.currentUser ||
+        auth.currentUser.uid !== user.uid
+    ) {
+        return;
+    }
+
+    const messages = snapshot.docs.map(function (messageDoc) {
+        return {
+            ...messageDoc.data(),
+            id: messageDoc.id
+        };
+    });
+
+    messages.sort(function (a, b) {
+        return (b.createdAt?.toMillis?.() || 0) -
+               (a.createdAt?.toMillis?.() || 0);
+    });
+
+    const latestMessage = messages[0];
+
+    await updateDoc(chatRef, {
+        lastMessage: latestMessage?.text || "",
+        lastMessageAt: latestMessage?.createdAt || serverTimestamp(),
+        lastSenderUid: latestMessage?.senderUid || "",
+        updatedAt: serverTimestamp()
+    });
+}
+
+// ==========================================
+// EDIT CUSTOMER MESSAGE
+// ==========================================
+
+async function editCustomerMessage(message) {
+    const user = auth.currentUser;
+
+    // العميل يعدل رسائله هو فقط
+    if (
+        !user ||
+        message.senderUid !== user.uid ||
+        message.senderRole !== "customer"
+    ) {
+        return;
+    }
+
+    const newText = prompt(
+        "Edit your message:",
+        message.text || ""
+    );
+
+    if (newText === null) {
+        return;
+    }
+
+    const trimmedText = newText.trim();
+
+    if (!trimmedText) {
+        alert("Message cannot be empty.");
+        return;
+    }
+
+    if (trimmedText.length > 2000) {
+        alert("Message cannot exceed 2000 characters.");
+        return;
+    }
+
+    if (trimmedText === message.text) {
+        return;
+    }
+
+    if (
+        !auth.currentUser ||
+        auth.currentUser.uid !== user.uid
+    ) {
+        return;
+    }
+
+    try {
+        const messageRef = doc(
+            db,
+            "supportChats",
+            user.uid,
+            "messages",
+            message.id
+        );
+
+        await updateDoc(messageRef, {
+            text: trimmedText,
+            editedAt: serverTimestamp()
+        });
+
+        await refreshCustomerChatPreview(user);
+
+    } catch (error) {
+        console.error("Failed to edit customer message:", error);
+
+        alert(
+            "Could not edit the message. Check your connection and Firestore rules."
+        );
+    }
+}
+
+// ==========================================
+// DELETE CUSTOMER MESSAGE
+// ==========================================
+
+async function deleteCustomerMessage(message) {
+    const user = auth.currentUser;
+
+    // العميل يحذف رسائله هو فقط
+    if (
+        !user ||
+        message.senderUid !== user.uid ||
+        message.senderRole !== "customer"
+    ) {
+        return;
+    }
+
+    const confirmed = confirm(
+        "Are you sure you want to delete this message?"
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+        const messageRef = doc(
+            db,
+            "supportChats",
+            user.uid,
+            "messages",
+            message.id
+        );
+
+        await deleteDoc(messageRef);
+
+        await refreshCustomerChatPreview(user);
+
+    } catch (error) {
+        console.error("Failed to delete customer message:", error);
+
+        alert(
+            "Could not delete the message. Check your connection and Firestore rules."
+        );
+    }
+}
+
+// ==========================================
+// RENDER CUSTOMER MESSAGES
+// ==========================================
+
+function renderCustomerMessages(snapshot) {
+    supportMessagesBox.replaceChildren();
+
+    if (snapshot.empty) {
+        addSupportNotice(
+            "Hello! Send us your question and our team will reply soon."
+        );
+        return;
+    }
+
+    const messages = snapshot.docs.map(function (messageDoc) {
+        return {
+            ...messageDoc.data(),
+            id: messageDoc.id
+        };
+    });
+
+    messages.sort(function (a, b) {
+        return (a.createdAt?.toMillis?.() || 0) -
+               (b.createdAt?.toMillis?.() || 0);
+    });
+
+    messages.forEach(function (message) {
+        const bubble = document.createElement("div");
+
+        const isOwnMessage =
+            auth.currentUser &&
+            message.senderUid === auth.currentUser.uid &&
+            message.senderRole === "customer";
+
+        bubble.className =
+            message.senderRole === "staff"
+                ? "support-bubble support-from-staff"
+                : "support-bubble support-from-customer";
+
+        // Message text
+        const text = document.createElement("p");
+        text.className = "support-bubble-text";
+        text.textContent = message.text || "";
+
+        // Message time
+        const time = document.createElement("small");
+        time.className = "support-bubble-time";
+        time.textContent = supportTime(message.createdAt);
+
+        if (message.editedAt) {
+            time.textContent += " (edited)";
+        }
+
+        bubble.append(text, time);
+
+        // Edit and Delete buttons for customer's own messages only
+        if (isOwnMessage) {
+            const actions = document.createElement("div");
+            actions.className = "support-message-actions";
+
+            const editButton = document.createElement("button");
+            editButton.type = "button";
+            editButton.className = "support-edit-message";
+            editButton.textContent = "Edit";
+
+            editButton.addEventListener("click", function () {
+                editCustomerMessage(message);
+            });
+
+            const deleteButton = document.createElement("button");
+            deleteButton.type = "button";
+            deleteButton.className = "support-delete-message";
+            deleteButton.textContent = "Delete";
+
+            deleteButton.addEventListener("click", function () {
+                deleteCustomerMessage(message);
+            });
+
+            actions.append(editButton, deleteButton);
+            bubble.appendChild(actions);
+        }
+
+        supportMessagesBox.appendChild(bubble);
+    });
+
+    supportMessagesBox.scrollTop =
+        supportMessagesBox.scrollHeight;
+}
+
+// ==========================================
+// LOAD CHAT FOR LOGGED-IN CUSTOMER
+// ==========================================
+
+async function updateSupportForUser(user) {
+    supportUser = user || null;
+
+    if (supportMessagesUnsubscribe) {
+        supportMessagesUnsubscribe();
+        supportMessagesUnsubscribe = null;
+    }
+
+    if (!user) {
+        showSupportNotice();
+        supportMessagesBox.replaceChildren();
+        return;
+    }
+
+    showSupportChatArea();
+
+    const chatRef = doc(db, "supportChats", user.uid);
+
+    try {
+        let chatSnapshot = await getDoc(chatRef);
+
+        if (
+            !auth.currentUser ||
+            auth.currentUser.uid !== user.uid
+        ) {
+            return;
+        }
+
+        if (!chatSnapshot.exists()) {
+            const profileSnapshot = await getDoc(
+                doc(db, "users", user.uid)
+            );
+
+            if (
+                !auth.currentUser ||
+                auth.currentUser.uid !== user.uid
+            ) {
+                return;
+            }
+
+            const profile = profileSnapshot.exists()
+                ? profileSnapshot.data()
+                : {};
+
+            await setDoc(chatRef, {
+                customerUid: user.uid,
+
+                customerName:
+                    profile.name ||
+                    profile.fullName ||
+                    user.displayName ||
+                    "Customer",
+
+                customerEmail: user.email || "",
+
+                lastMessage: "",
+                lastMessageAt: serverTimestamp(),
+                lastSenderUid: "",
+
+                unreadForAdmin: false,
+                unreadForCustomer: false,
+
+                updatedAt: serverTimestamp()
+            });
+
+            chatSnapshot = await getDoc(chatRef);
+        }
+
+        if (
+            !auth.currentUser ||
+            auth.currentUser.uid !== user.uid
+        ) {
+            return;
+        }
+
+        supportMessagesUnsubscribe = onSnapshot(
+            collection(
+                db,
+                "supportChats",
+                user.uid,
+                "messages"
+            ),
+
+            function (snapshot) {
+                if (
+                    !auth.currentUser ||
+                    auth.currentUser.uid !== user.uid ||
+                    supportUser?.uid !== user.uid
+                ) {
+                    return;
+                }
+
+                renderCustomerMessages(snapshot);
+            },
+
+            function (error) {
+                console.error(
+                    "Support messages error:",
+                    error
+                );
+
+                addSupportNotice(
+                    "Unable to load messages. Please try again later."
+                );
+            }
+        );
+
+        await updateDoc(chatRef, {
+            unreadForCustomer: false
+        });
+
+    } catch (error) {
+        console.error(
+            "Could not open support chat:",
+            error
+        );
+
+        addSupportNotice(
+            "Unable to open chat. Check your connection and Firestore rules."
+        );
+    }
+}
+
+// ==========================================
+// AUTH STATE
+// ==========================================
+
+onAuthStateChanged(auth, function (user) {
+    supportUser = user || null;
+
+    if (supportPanel.hidden) {
+        if (supportMessagesUnsubscribe) {
+            supportMessagesUnsubscribe();
+            supportMessagesUnsubscribe = null;
+        }
+
+        if (!user) {
+            showSupportNotice();
+        }
+
+        return;
+    }
+
+    updateSupportForUser(user);
+});
+
+// ==========================================
+// SEND CUSTOMER MESSAGE
+// ==========================================
+
+supportMessageForm.addEventListener(
+    "submit",
+    async function (event) {
+        event.preventDefault();
+
+        const user = auth.currentUser;
+        const messageText = supportMessageInput.value.trim();
+
+        if (!user || !messageText || supportBusy) {
+            if (!user) {
+                showSupportNotice();
+            }
+
+            return;
+        }
+
+        if (messageText.length > 2000) {
+            alert("Message cannot exceed 2000 characters.");
+            return;
+        }
+
+        supportBusy = true;
+        supportMessageSend.disabled = true;
+
+        try {
+            const chatRef = doc(
+                db,
+                "supportChats",
+                user.uid
+            );
+
+            const chatSnapshot = await getDoc(chatRef);
+
+            if (!chatSnapshot.exists()) {
+                await updateSupportForUser(user);
+            }
+
+            if (
+                !auth.currentUser ||
+                auth.currentUser.uid !== user.uid
+            ) {
+                throw new Error("Login session changed.");
+            }
+
+            await addDoc(
+                collection(
+                    db,
+                    "supportChats",
+                    user.uid,
+                    "messages"
+                ),
+                {
+                    senderUid: user.uid,
+                    senderRole: "customer",
+                    text: messageText,
+                    createdAt: serverTimestamp()
+                }
+            );
+
+            await updateDoc(chatRef, {
+                lastMessage: messageText,
+                lastMessageAt: serverTimestamp(),
+                lastSenderUid: user.uid,
+
+                unreadForAdmin: true,
+                unreadForCustomer: false,
+
+                updatedAt: serverTimestamp()
+            });
+
+            supportMessageInput.value = "";
+
+        } catch (error) {
+            console.error(
+                "Failed to send support message:",
+                error
+            );
+
+            alert(
+                "Message could not be sent. Check Firebase Firestore rules."
+            );
+
+        } finally {
+            supportBusy = false;
+            supportMessageSend.disabled = false;
+        }
+    }
+);
+
+
+    </script>
+
+
+</body>
+
+</html>
