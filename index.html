@@ -32,55 +32,59 @@
          Navbar
     ============================== -->
 
-    <header class="navbar">
+     
+<!-- NAVBAR -->
+<header class="navbar">
 
-        <a href="index.html" class="logo">
-            Workspace
+    <a href="index.html" class="logo">
+        Workspace
+    </a>
+
+    <!-- Mobile Menu Button -->
+    <button
+        type="button"
+        class="mobile-menu-toggle"
+        id="mobileMenuToggle"
+        aria-label="Open navigation menu"
+        aria-expanded="false"
+        aria-controls="mainNavigation"
+    >
+        <span></span>
+        <span></span>
+        <span></span>
+    </button>
+
+    <!-- Navigation Links -->
+    <nav id="mainNavigation">
+
+        <a
+            href="customer-login.html"
+            class="account-btn"
+            id="accountBtn"
+        >
+            Log In
         </a>
 
+        <a href="#home">Home</a>
 
-        <nav>
-
-            <!--
-                This button changes automatically:
-                Login
-                My Account
-                Admin Dashboard
-            -->
-
-            <a
-                href="customer-login.html"
-                class="account-btn"
-                id="accountBtn"
-            >
-                Log In
-            </a>
-
-
-            <a href="#home">
-                Home
-            </a>
-
-
-            <a href="#rooms">
-                Rooms
-            </a>
-
-        </nav>
-
+        <a href="#rooms">Rooms</a>
 
         <a
             href="booking-status.html"
-            class="nav-btn"
+            class="nav-btn mobile-booking-btn"
         >
-
             <i class="fa-solid fa-magnifying-glass"></i>
-
             My Booking
-
         </a>
 
-    </header>
+    </nav>
+
+    <a href="booking-status.html" class="nav-btn desktop-booking-btn">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    My Booking
+</a>
+
+</header>
 
 
 
@@ -1411,6 +1415,56 @@ supportMessageForm.addEventListener(
 
 
     </script>
+
+    
+<script>
+(() => {
+    const menuButton = document.getElementById("mobileMenuToggle");
+    const navigation = document.getElementById("mainNavigation");
+
+    if (!menuButton || !navigation) return;
+
+    function setMenuOpen(open) {
+        navigation.classList.toggle("is-open", open);
+        menuButton.classList.toggle("is-active", open);
+
+        menuButton.setAttribute("aria-expanded", String(open));
+
+        menuButton.setAttribute(
+            "aria-label",
+            open ? "Close navigation menu" : "Open navigation menu"
+        );
+    }
+
+    menuButton.addEventListener("click", () => {
+        const isOpen =
+            menuButton.getAttribute("aria-expanded") === "true";
+
+        setMenuOpen(!isOpen);
+    });
+
+    navigation.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            setMenuOpen(false);
+        });
+    });
+
+    document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            setMenuOpen(false);
+        }
+    });
+
+    window.addEventListener("resize", () => {
+        if (window.innerWidth > 768) {
+            setMenuOpen(false);
+        }
+    });
+})();
+</script>
+</body>
+</html>
+
 
 
 </body>
