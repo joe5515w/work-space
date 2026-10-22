@@ -1,10 +1,12 @@
+
 import {
     initializeApp
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 
 import {
     getAuth,
-    signInWithEmailAndPassword
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
@@ -15,32 +17,17 @@ import {
 
 
 // =============================
-// Firebase
+// Firebase Configuration
 // =============================
 
 const firebaseConfig = {
-
-    apiKey:
-        "AIzaSyAMpEEVR04IamKNSU6e_NF1mfOKri-5Yrw",
-
-    authDomain:
-        "work-space-aed69.firebaseapp.com",
-
-    projectId:
-        "work-space-aed69",
-
-    storageBucket:
-        "work-space-aed69.firebasestorage.app",
-
-    messagingSenderId:
-        "134615324990",
-
-    appId:
-        "1:134615324990:web:346d91563e063f35ffb46f",
-
-    measurementId:
-        "G-3P8QL2R5KN"
-
+    apiKey: "AIzaSyAMpEEVR04IamKNSU6e_NF1mfOKri-5Yrw",
+    authDomain: "work-space-aed69.firebaseapp.com",
+    projectId: "work-space-aed69",
+    storageBucket: "work-space-aed69.firebasestorage.app",
+    messagingSenderId: "134615324990",
+    appId: "1:134615324990:web:346d91563e063f35ffb46f",
+    measurementId: "G-3P8QL2R5KN"
 };
 
 
@@ -48,218 +35,169 @@ const firebaseConfig = {
 // Initialize Firebase
 // =============================
 
-const app =
-    initializeApp(firebaseConfig);
-
-
-const auth =
-    getAuth(app);
-
-
-const db =
-    getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 
 // =============================
 // Elements
 // =============================
 
-const loginForm =
-    document.getElementById(
-        "customerLoginForm"
-    );
+const loginForm = document.getElementById("customerLoginForm");
+const loginMessage = document.getElementById("customerLoginMessage");
+
+const emailInput = document.getElementById("customerEmail");
+const passwordInput = document.getElementById("customerPassword");
+
+const forgotPasswordLink = document.getElementById("forgotPasswordLink");
 
 
-const loginMessage =
-    document.getElementById(
-        "customerLoginMessage"
-    );
+// =============================
+// Forgot Password
+// =============================
+
+forgotPasswordLink.addEventListener("click", async function (event) {
+    event.preventDefault();
+
+    const email = emailInput.value.trim();
+
+    // Check email
+    if (!email) {
+        loginMessage.textContent = "Please enter your email first.";
+        emailInput.focus();
+        return;
+    }
+
+    if (!emailInput.checkValidity()) {
+        loginMessage.textContent = "Please enter a valid email address.";
+        emailInput.focus();
+        return;
+    }
+
+    // Prevent repeated clicks while sending
+    forgotPasswordLink.style.pointerEvents = "none";
+    loginMessage.textContent = "Sending password reset email...";
+
+    try {
+        await sendPasswordResetEmail(auth, email);
+
+        // Generic message to avoid revealing whether an account exists
+        loginMessage.textContent =
+            "If an account exists for this email, a password reset link has been sent. Please check your inbox and spam folder.";
+
+    } catch (error) {
+        console.error("Password Reset Error:", error);
+
+        if (
+            error.code === "auth/invalid-email"
+        ) {
+            loginMessage.textContent =
+                "Please enter a valid email address.";
+
+        } else if (
+            error.code === "auth/too-many-requests"
+        ) {
+            loginMessage.textContent =
+                "Too many attempts. Please wait a while and try again.";
+
+        } else if (
+            error.code === "auth/network-request-failed"
+        ) {
+            loginMessage.textContent =
+                "Network error. Check your internet connection and try again.";
+
+        } else {
+            loginMessage.textContent =
+                "Could not send the reset email. Please check your Firebase settings and try again.";
+        }
+
+    } finally {
+        forgotPasswordLink.style.pointerEvents = "";
+    }
+});
 
 
 // =============================
 // Login
 // =============================
 
-loginForm.addEventListener(
-    "submit",
-    async function (event) {
+loginForm.addEventListener("submit", async function (event) {
+    event.preventDefault();
 
-        event.preventDefault();
+    const email = emailInput.value.trim();
+    const password = passwordInput.value;
 
+    loginMessage.textContent = "Logging in...";
 
-        // =============================
-        // Get Form Data
-        // =============================
+    try {
+        // Login with Firebase
+        const userCredential = await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
 
-        const email =
-            document.getElementById(
-                "customerEmail"
-            ).value.trim();
+        const user = userCredential.user;
 
+        loginMessage.textContent = "Login successful!";
 
-        const password =
-            document.getElementById(
-                "customerPassword"
-            ).value;
+        // Get current user data
+        const userRef = doc(db, "users", user.uid);
+        const userSnapshot = await getDoc(userRef);
 
+        // Check booking redirect
+        const redirect = sessionStorage.getItem("bookingRedirect");
 
-        loginMessage.textContent =
-            "Logging in...";
+        // If came from booking
+        if (redirect) {
+            sessionStorage.removeItem("bookingRedirect");
 
-
-        try {
-
-            // =============================
-            // Login with Firebase
-            // =============================
-
-            const userCredential =
-                await signInWithEmailAndPassword(
-                    auth,
-                    email,
-                    password
-                );
-
-
-            const user =
-                userCredential.user;
-
-
-            loginMessage.textContent =
-                "Login successful!";
-
-
-            // =============================
-            // Get Current User Data
-            // =============================
-
-            const userRef =
-                doc(
-                    db,
-                    "users",
-                    user.uid
-                );
-
-
-            const userSnapshot =
-                await getDoc(
-                    userRef
-                );
-
-
-            // =============================
-            // Check Booking Redirect
-            // =============================
-
-            const redirect =
-                sessionStorage.getItem(
-                    "bookingRedirect"
-                );
-
-
-            // =============================
-            // If Came From Booking
-            // =============================
-
-            if (redirect) {
-
-                sessionStorage.removeItem(
-                    "bookingRedirect"
-                );
-
-
-                window.location.href =
-                    redirect;
-
-
-                return;
-            }
-
-
-        // =============================
-// Check Admin / Moderator Role
-// =============================
-
-if (
-    userSnapshot.exists() &&
-    (
-        userSnapshot.data().role === "admin" ||
-        userSnapshot.data().role === "moderator"
-    )
-) {
-
-    // =============================
-    // ADMIN / MODERATOR
-    // =============================
-
-    window.location.href =
-        "admin.html";
-
-
-    return;
-}
-
-            // =============================
-            // NORMAL CUSTOMER
-            // =============================
-
-            window.location.href =
-                "account.html";
-
-
-        } catch (error) {
-
-            console.error(
-                "Customer Login Error:",
-                error
-            );
-
-
-            // =============================
-            // Error Messages
-            // =============================
-
-            if (
-                error.code ===
-                "auth/invalid-credential"
-            ) {
-
-                loginMessage.textContent =
-                    "Invalid email or password.";
-
-            }
-
-
-            else if (
-                error.code ===
-                "auth/user-not-found"
-            ) {
-
-                loginMessage.textContent =
-                    "No account found with this email.";
-
-            }
-
-
-            else if (
-                error.code ===
-                "auth/wrong-password"
-            ) {
-
-                loginMessage.textContent =
-                    "Incorrect password.";
-
-            }
-
-
-            else {
-
-                loginMessage.textContent =
-                    "Login failed. Please try again.";
-
-            }
-
+            window.location.href = redirect;
+            return;
         }
 
+        // Check Admin / Moderator Role
+        if (
+            userSnapshot.exists() &&
+            (
+                userSnapshot.data().role === "admin" ||
+                userSnapshot.data().role === "moderator"
+            )
+        ) {
+            window.location.href = "admin.html";
+            return;
+        }
+
+        // Normal customer
+        window.location.href = "account.html";
+
+    } catch (error) {
+        console.error("Customer Login Error:", error);
+
+        if (
+            error.code === "auth/invalid-credential" ||
+            error.code === "auth/user-not-found" ||
+            error.code === "auth/wrong-password"
+        ) {
+            loginMessage.textContent =
+                "Invalid email or password.";
+
+        } else if (
+            error.code === "auth/invalid-email"
+        ) {
+            loginMessage.textContent =
+                "Please enter a valid email address.";
+
+        } else if (
+            error.code === "auth/too-many-requests"
+        ) {
+            loginMessage.textContent =
+                "Too many attempts. Please try again later.";
+
+        } else {
+            loginMessage.textContent =
+                "Login failed. Please try again.";
+        }
     }
-);
+});
