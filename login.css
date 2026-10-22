@@ -102,3 +102,26 @@ body {
 
     text-align: center;
 }
+
+
+.forgot-password {
+    width: 100%;
+    text-align: right;
+    margin: -5px 0 15px;
+}
+
+.forgot-password a {
+    color: #2563eb;
+    font-size: 14px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.forgot-password a:hover {
+    color: #1d4ed8;
+    text-decoration: underline;
+}
+
+#customerLoginMessage {
+    overflow-wrap: anywhere;
+}
